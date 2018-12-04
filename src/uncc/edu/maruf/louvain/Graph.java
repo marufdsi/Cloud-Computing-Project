@@ -1,9 +1,7 @@
 package uncc.edu.maruf.louvain;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
+import java.util.*;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FSDataOutputStream;
@@ -25,7 +23,8 @@ public class Graph {
     public Graph(Integer n, Integer e){
         nodes = n;
         edges = e;
-        degree = new ArrayList<>(n);
+//        degree = Arrays.asList(new Integer[n]);
+        degree = new ArrayList<Integer>(Collections.nCopies(n, 0));
         outEdge = new ArrayList<>(n);
         outEdgeWeight = new ArrayList<>(n);
         for (int i=0; i<n; ++i){
@@ -38,12 +37,18 @@ public class Graph {
     }
     public void addAnEdge(int u, int v, double w){
         degree.set(u, degree.get(u)+1);
-        degree.set(v, degree.get(v)+1);
-        outEdge.get(v).add(u);
-        outEdgeWeight.get(v).add(w);
+//        degree.set(v, degree.get(v)+1);
+        List adjacent = outEdge.get(u);
+        adjacent.add(v);
+        outEdge.set(u, adjacent);
+        List adjacentWeight = outEdgeWeight.get(u);
+        adjacentWeight.add(w);
+        outEdgeWeight.set(u, adjacentWeight);
     }
     public void singletonCommunity(){
         zeta = new ArrayList<>(nodes);
+        volumeOfNode = new ArrayList<>(nodes);
+        volumeOfCommunity = new ArrayList<>(nodes);
         for (int u=0; u<nodes; ++u){
             zeta.add(u);
             volumeOfNode.add(defaultEdgeWeight * degree.get(u));
