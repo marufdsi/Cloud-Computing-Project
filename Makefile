@@ -3,11 +3,12 @@ intermediatefile=/user/cloudera/louvain/preprocess
 output=/user/cloudera/louvain/output
 
 
-run-louvain:
+run-louvain: build-louvainmethod louvainmethod-jar
 	hadoop fs -rm -f -r  $(intermediatefile)
 	hadoop fs -rm -f -r  $(output)
 	hadoop jar louvainmethod.jar uncc.edu.maruf.louvain.LouvainMethod $(graph) $(intermediatefile) $(output)
 
+louvainmethod-jar: louvainmethod.jar
 
 louvainmethod.jar: build/uncc/edu/maruf/louvain/*.class
 	jar -cvf louvainmethod.jar -C build/ .

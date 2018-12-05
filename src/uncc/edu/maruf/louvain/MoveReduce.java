@@ -6,12 +6,6 @@
  */
 package uncc.edu.maruf.louvain;
 
-import java.io.*;
-import org.apache.hadoop.io.IntWritable;
-import org.apache.hadoop.io.BytesWritable;
-import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
-
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
@@ -29,17 +23,22 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.StringUtils;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
-public class LouvainMethod {
-    public static Graph G;
-    public static boolean changed = false;
-    public static void main(String[] args) throws Exception{
-        GraphReader reader = new GraphReader(args[0]);
-        G = reader.buildGraph();
-        System.out.println("Create Singleton Community");
-        G.singletonCommunity();
-        System.out.println("Graph Creation Done");
-        G.saveGraphIntoHadoopFormat(args[1]);
-        System.out.println("Save Graph");
-    }
+import org.apache.log4j.Logger;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+public class MoveReduce extends Reducer<Text, Text, Text, Text> {
+    private static final Logger MapperLog = Logger.getLogger(CoarsenReduce.class);
+
+    @Override
+    public void reduce(Text u, Iterable<Text> adjacency, Context context) throws IOException, InterruptedException {
+        Configuration conf = context.getConfiguration();
+        boolean moved = Boolean.parseBoolean(conf.get("moved"));
+        for (Text value : adjacency) {
+            context.write(u, value);
+        }
+
+    }
 }

@@ -1,3 +1,9 @@
+/**
+ * Copyright:
+ * Md Maruf Hossain
+ * Department of Computer Science
+ * University of North Carolina at Charlotte(UNCC) 2018
+ */
 package uncc.edu.maruf.louvain;
 
 import java.io.*;
@@ -25,8 +31,8 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Map extends Mapper<LongWritable, Text, Text, Text> {
-    private static final Logger MapperLog = Logger.getLogger(Map.class);
+public class MoveMap extends Mapper<LongWritable, Text, Text, Text> {
+    private static final Logger MapperLog = Logger.getLogger(MoveMap.class);
     private String input;
 
     protected void setup(Mapper.Context context) throws IOException, InterruptedException {
@@ -89,7 +95,7 @@ public class Map extends Mapper<LongWritable, Text, Text, Text> {
             Configuration conf = context.getConfiguration();
             conf.set("moved", String.valueOf(true));
         }
-        context.write(new Text(String.valueOf(C)), new Text(lineSegments[1].trim()));
+        context.write(new Text(String.valueOf(u)), new Text(lineSegments[1].trim()));
     }
 
     public double modGain(int u, int C, int D, double affinityC, double affinityD) {

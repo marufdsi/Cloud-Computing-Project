@@ -29,17 +29,6 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.StringUtils;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
-public class LouvainMethod {
-    public static Graph G;
-    public static boolean changed = false;
-    public static void main(String[] args) throws Exception{
-        GraphReader reader = new GraphReader(args[0]);
-        G = reader.buildGraph();
-        System.out.println("Create Singleton Community");
-        G.singletonCommunity();
-        System.out.println("Graph Creation Done");
-        G.saveGraphIntoHadoopFormat(args[1]);
-        System.out.println("Save Graph");
-    }
 
+public class MovePhase {
 }

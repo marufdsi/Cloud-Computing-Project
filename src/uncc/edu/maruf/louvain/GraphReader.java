@@ -1,3 +1,9 @@
+/**
+ * Copyright:
+ * Md Maruf Hossain
+ * Department of Computer Science
+ * University of North Carolina at Charlotte(UNCC) 2018
+ */
 package uncc.edu.maruf.louvain;
 
 import java.io.BufferedReader;

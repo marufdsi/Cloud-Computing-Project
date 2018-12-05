@@ -1,3 +1,9 @@
+/**
+ * Copyright:
+ * Md Maruf Hossain
+ * Department of Computer Science
+ * University of North Carolina at Charlotte(UNCC) 2018
+ */
 package uncc.edu.maruf.louvain;
 
 import java.io.*;
@@ -23,8 +29,8 @@ import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 import org.apache.log4j.Logger;
 
-public class Reduce extends Reducer<Text, Text, Text, Text> {
-    private static final Logger ReducerLog = Logger.getLogger(Reduce.class);
+public class CoarsenReduce extends Reducer<Text, Text, Text, Text> {
+    private static final Logger ReducerLog = Logger.getLogger(CoarsenReduce.class);
 
     @Override
     public void reduce(Text community, Iterable<Text> adjacencies, Context context)
