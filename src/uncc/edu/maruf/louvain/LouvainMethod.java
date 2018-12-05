@@ -28,8 +28,11 @@ public class LouvainMethod extends Configured implements Tool {
     public static void main(String[] args) throws Exception{
         GraphReader reader = new GraphReader(args[0]);
         G = reader.buildGraph();
+        System.out.println("Create Singleton Community");
         G.singletonCommunity();
+        System.out.println("Graph Creation Done");
         G.saveGraphIntoHadoopFormat(args[1]);
+        System.out.println("Save Graph");
         int res = ToolRunner.run(new LouvainMethod(), args);
         System.exit(res);
     }
@@ -41,7 +44,7 @@ public class LouvainMethod extends Configured implements Tool {
         /// Set the input file
         FileInputFormat.addInputPath(job, new Path(args[1]));
         /// Set the output file location
-        FileOutputFormat.setOutputPath(job, new Path(args[1]));
+        FileOutputFormat.setOutputPath(job, new Path(args[2]));
         /// Add Mapper Class
         job.setMapperClass(Map.class);
         /// Add Reduce Class

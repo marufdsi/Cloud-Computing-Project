@@ -1,6 +1,9 @@
 package uncc.edu.maruf.louvain;
 
 import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
@@ -19,13 +22,54 @@ import org.apache.hadoop.util.StringUtils;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 import org.apache.log4j.Logger;
+
 public class Reduce extends Reducer<Text, Text, Text, Text> {
     private static final Logger ReducerLog = Logger.getLogger(Reduce.class);
+
     @Override
-    public void reduce(Text u, Iterable<Text> adjacency, Context context)
+    public void reduce(Text community, Iterable<Text> adjacencies, Context context)
             throws IOException, InterruptedException {
-        for (Text value : adjacency) {
-            context.write(u, value);
+        Configuration conf = context.getConfiguration();
+        boolean moved = Boolean.parseBoolean(conf.get("moved"));
+        if (moved) {
+            Map<Integer, Double> neighbors = new HashMap<>();
+            int C = Integer.parseInt(community.toString());
+            for (Text value : adjacencies) {
+                if (value.toString().contains("###")) {
+                    String[] nodes = value.toString().split("###");
+                    for (String node : nodes) {
+                        if (node.contains(":::")) {
+                            String[] nodeValuePair = node.split(":::");
+                            if (nodeValuePair.length >= 2) {
+                                int v = Integer.parseInt(nodeValuePair[0]);
+                                int D = LouvainMethod.G.zeta.get(v);
+                                if (C != D) {
+                                    neighbors.put(D, neighbors.get(D) + Double.parseDouble(nodeValuePair[1]));
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (value.toString().contains(":::")) {
+                        String[] nodeValuePair = value.toString().split(":::");
+                        if (nodeValuePair.length >= 2) {
+                            int v = Integer.parseInt(nodeValuePair[0]);
+                            int D = LouvainMethod.G.zeta.get(v);
+                            if (C != D) {
+                                neighbors.put(D, neighbors.get(D) + Double.parseDouble(nodeValuePair[1]));
+                            }
+                        }
+                    }
+                }
+            }
+            String newAdjacency = "";
+            for (Integer D : neighbors.keySet()) {
+                newAdjacency += String.valueOf(D) + ":::" + String.valueOf(neighbors.get(D)) + "###";
+            }
+            if (newAdjacency.length() > 3) {
+                newAdjacency = newAdjacency.substring(0, newAdjacency.length() - 3);
+                context.write(new Text(String.valueOf(C)), new Text(newAdjacency));
+            }
         }
     }
 }

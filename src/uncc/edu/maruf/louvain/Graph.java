@@ -18,12 +18,13 @@ public class Graph {
     List<List<Integer>> outEdge;
     List<List<Double> > outEdgeWeight;
     public static List<Integer> zeta;
+    public static Double totalEdgeWeight=0.0;
+    public static Double gamma = 1.0;
     public static List<Double> volumeOfNode;
     public static List<Double> volumeOfCommunity;
     public Graph(Integer n, Integer e){
         nodes = n;
         edges = e;
-//        degree = Arrays.asList(new Integer[n]);
         degree = new ArrayList<Integer>(Collections.nCopies(n, 0));
         outEdge = new ArrayList<>(n);
         outEdgeWeight = new ArrayList<>(n);
@@ -38,12 +39,13 @@ public class Graph {
     public void addAnEdge(int u, int v, double w){
         degree.set(u, degree.get(u)+1);
 //        degree.set(v, degree.get(v)+1);
-        List adjacent = outEdge.get(u);
+        List<Integer> adjacent = outEdge.get(u);
         adjacent.add(v);
         outEdge.set(u, adjacent);
-        List adjacentWeight = outEdgeWeight.get(u);
+        List<Double> adjacentWeight = outEdgeWeight.get(u);
         adjacentWeight.add(w);
         outEdgeWeight.set(u, adjacentWeight);
+        totalEdgeWeight += w;
     }
     public void singletonCommunity(){
         zeta = new ArrayList<>(nodes);
