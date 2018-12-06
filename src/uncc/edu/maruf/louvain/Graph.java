@@ -17,7 +17,8 @@ import org.apache.hadoop.fs.Path;
 
 public class Graph {
     private static final Logger LOG = Logger.getLogger(Graph.class);
-    public Integer nodes;
+    public int nodes;
+    public int edges;
     public static double defaultEdgeWeight = 1.0;
     public List<Integer> degree;
     public List<List<Integer>> outEdge;
@@ -28,10 +29,9 @@ public class Graph {
     public List<Double> volumeOfNode;
     public List<Double> volumeOfCommunity;
 
-    public Graph(){
-    }
-    public void initialize(Integer n) {
+    public Graph(Integer n, Integer e) {
         nodes = n;
+        edges = e;
         degree = new ArrayList<Integer>(Collections.nCopies(n, 0));
         outEdge = new ArrayList<>(n);
         outEdgeWeight = new ArrayList<>(n);
@@ -41,11 +41,11 @@ public class Graph {
         }
     }
 
-    public void addAnEdge(Integer u, Integer v) {
+    public void addAnEdge(int u, int v) {
         addAnEdge(u, v, 1.0);
     }
 
-    public void addAnEdge(Integer u, Integer v, Double w) {
+    public void addAnEdge(int u, int v, double w) {
         degree.set(u, degree.get(u) + 1);
 //        degree.set(v, degree.get(v)+1);
         List<Integer> adjacent = outEdge.get(u);

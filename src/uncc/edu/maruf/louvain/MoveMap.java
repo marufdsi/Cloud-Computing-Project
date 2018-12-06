@@ -49,6 +49,7 @@ public class MoveMap extends Mapper<LongWritable, Text, Text, Text> {
     public void map(LongWritable offset, Text lineText, Context context) throws IOException, InterruptedException {
         FileSplit fileSplit = (FileSplit) context.getInputSplit();
         /// get the input line as string and trim it.
+        System.out.println("Nodes: " + LouvainMethod.G.nodes);
         String line = lineText.toString();
         line = line.trim();
         String[] lineSegments = line.split(" ");

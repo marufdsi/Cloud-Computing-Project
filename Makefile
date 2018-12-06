@@ -3,19 +3,29 @@ intermediatefile=/user/cloudera/louvain/preprocess
 output=/user/cloudera/louvain/output
 
 
-run-louvain: build-louvainmethod louvainmethod-jar
+run: build-louvainmethod louvainmethod-jar
 	hadoop fs -rm -f -r  $(intermediatefile)
 	hadoop fs -rm -f -r  $(output)
 	hadoop jar louvainmethod.jar uncc.edu.maruf.louvain.LouvainMethod $(graph) $(intermediatefile) $(output)
 
-louvainmethod-jar: louvainmethod.jar
+louvainmethod-jar: jar
 
-louvainmethod.jar: build/uncc/edu/maruf/louvain/*.class
+jar: build/uncc/edu/maruf/louvain/*.class
 	jar -cvf louvainmethod.jar -C build/ .
 
-build-louvainmethod: src/uncc/edu/maruf/louvain/*.java
+build: src/uncc/edu/maruf/louvain/*.java
 	mkdir -p build/
-	javac -cp /usr/lib/hadoop/*:/usr/lib/hadoop-mapreduce/* src/uncc/edu/maruf/louvain/*.java -d build -Xlint
+	javac -cp library/*:/usr/lib/hadoop/*:/usr/lib/hadoop-mapreduce/* src/uncc/edu/maruf/louvain/*.java -d build -Xlint
+
+run-preprocess: preprocess.jar
+	java -cp preprocessdata.jar PreprocessData smallworld.graph updatedGraph.txt
+
+preprocess.jar: preprocess/*.class
+	jar -cvf preprocessdata.jar -C preprocess/ .
+
+build-preprocess:   src/PreprocessData.java
+	mkdir -p preprocess/
+	javac src/PreprocessData.java -d preprocess -Xlint
 
 
 clean:

@@ -49,9 +49,9 @@ public class Move extends Configured implements Tool{
             Job job = Job.getInstance(conf, "Move");
             job.setJarByClass(this.getClass());
             /// Set the input file
-            FileInputFormat.addInputPath(job, new Path(args[1]));
+            FileInputFormat.addInputPath(job, new Path(args[0]));
             /// Set the output file location
-            FileOutputFormat.setOutputPath(job, new Path(args[2]));
+            FileOutputFormat.setOutputPath(job, new Path(args[1]));
             /// Add Mapper Class
             job.setMapperClass(MoveMap.class);
             /// Add CoarsenReduce Class

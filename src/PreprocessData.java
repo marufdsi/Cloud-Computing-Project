@@ -1,10 +1,9 @@
-package uncc.edu.maruf.louvain.preprocess;
-
 import java.io.*;
 import java.util.StringTokenizer;
 
 public class PreprocessData {
     public static void main(String[] args) throws Exception{
+        System.out.println("Start Pre-process");
         String outputString = "";
         BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(args[0])));
         outputString = "Header:#:#:" + br.readLine() + "\n";
@@ -25,9 +24,11 @@ public class PreprocessData {
             u++;
             line = br.readLine();
         }
+        System.out.println("Graph Reading Done");
         br.close();
         FileWriter fw = new FileWriter(new File(args[1]));
         BufferedWriter bw = new BufferedWriter(fw);
         bw.write(outputString);
+        System.out.println("Graph Writing Done");
     }
 }
