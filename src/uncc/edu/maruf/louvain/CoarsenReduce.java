@@ -30,7 +30,7 @@ import org.apache.hadoop.util.ToolRunner;
 import org.apache.log4j.Logger;
 
 public class CoarsenReduce extends Reducer<Text, Text, Text, Text> {
-    private static final Logger ReducerLog = Logger.getLogger(CoarsenReduce.class);
+    private static final Logger CoarsenReducerLog = Logger.getLogger(CoarsenReduce.class);
 
     @Override
     public void reduce(Text community, Iterable<Text> adjacencies, Context context)

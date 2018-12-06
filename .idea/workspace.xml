@@ -2,17 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="24e07114-5af1-48a7-8a98-cc70a8a2e8e3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/uncc/edu/maruf/louvain/Move.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/uncc/edu/maruf/louvain/MovePhase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/uncc/edu/maruf/louvain/MoveReduce.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/uncc/edu/maruf/louvain/CoarsenMap.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/uncc/edu/maruf/louvain/CoarsenReduce.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/uncc/edu/maruf/louvain/CoarsenReduce.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/uncc/edu/maruf/louvain/Graph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/uncc/edu/maruf/louvain/Graph.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/uncc/edu/maruf/louvain/GraphReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/uncc/edu/maruf/louvain/GraphReader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/uncc/edu/maruf/louvain/LouvainMethod.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/uncc/edu/maruf/louvain/LouvainMethod.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/uncc/edu/maruf/louvain/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/uncc/edu/maruf/louvain/MoveMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/uncc/edu/maruf/louvain/Partition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/uncc/edu/maruf/louvain/Partition.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/uncc/edu/maruf/louvain/Reduce.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/uncc/edu/maruf/louvain/CoarsenReduce.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/uncc/edu/maruf/louvain/Move.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/uncc/edu/maruf/louvain/Move.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/uncc/edu/maruf/louvain/MovePhase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/uncc/edu/maruf/louvain/MovePhase.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -32,12 +29,12 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="Makefile" value="1" />
-          <entry key="java" value="12" />
+          <entry key="java" value="19" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="JAVA" value="12" />
+          <entry key="JAVA" value="19" />
           <entry key="PLAIN_TEXT" value="1" />
         </counts>
       </usages-collector>
@@ -45,12 +42,12 @@
         <counts>
           <entry key="Makefile" value="186" />
           <entry key="dummy" value="7" />
-          <entry key="java" value="3139" />
+          <entry key="java" value="3872" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="3139" />
+          <entry key="JAVA" value="3872" />
           <entry key="PLAIN_TEXT" value="193" />
         </counts>
       </usages-collector>
@@ -59,38 +56,13 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/uncc/edu/maruf/louvain/MoveMap.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="694">
-              <caret line="95" column="52" lean-forward="true" selection-start-line="95" selection-start-column="52" selection-end-line="95" selection-end-column="52" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/uncc/edu/maruf/louvain/MoveReduce.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="139">
-              <caret line="32" column="38" selection-start-line="32" selection-start-column="38" selection-end-line="32" selection-end-column="38" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/uncc/edu/maruf/louvain/CoarsenReduce.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="139">
-              <caret line="29" lean-forward="true" selection-start-line="29" selection-end-line="29" selection-end-column="31" />
+            <state relative-caret-position="225">
+              <caret line="36" column="54" lean-forward="true" selection-start-line="31" selection-start-column="27" selection-end-line="36" selection-end-column="54" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -99,8 +71,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/uncc/edu/maruf/louvain/Graph.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="125">
-              <caret line="5" column="3" selection-start-line="5" selection-start-column="3" selection-end-line="5" selection-end-column="3" />
+            <state relative-caret-position="321">
+              <caret line="30" column="19" selection-start-line="30" selection-start-column="19" selection-end-line="30" selection-end-column="19" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="imports" expanded="true" />
@@ -112,23 +84,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/uncc/edu/maruf/louvain/Partition.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="6" selection-start-line="6" selection-end-line="6" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/uncc/edu/maruf/louvain/GraphReader.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="6" selection-start-line="6" selection-end-line="6" />
+            <state relative-caret-position="264">
+              <caret line="20" column="31" selection-start-line="20" selection-start-column="19" selection-end-line="20" selection-end-column="31" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="imports" expanded="true" />
@@ -139,11 +98,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/uncc/edu/maruf/louvain/Move.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="175">
-              <caret line="37" column="55" selection-start-line="37" selection-start-column="55" selection-end-line="37" selection-end-column="55" />
+            <state relative-caret-position="133">
+              <caret line="36" column="34" lean-forward="true" selection-start-line="36" selection-start-column="34" selection-end-line="36" selection-end-column="34" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="imports" expanded="true" />
@@ -155,8 +114,21 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/uncc/edu/maruf/louvain/MovePhase.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="6" selection-start-line="6" selection-end-line="6" />
+            <state relative-caret-position="358">
+              <caret line="39" column="17" selection-start-line="39" selection-start-column="17" selection-end-line="39" selection-end-column="17" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/uncc/edu/maruf/louvain/LouvainMethod.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1183">
+              <caret line="100" column="54" lean-forward="true" selection-start-line="100" selection-start-column="54" selection-end-line="100" selection-end-column="54" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="imports" expanded="true" />
@@ -166,19 +138,23 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Makefile">
+        <entry file="file://$PROJECT_DIR$/src/uncc/edu/maruf/louvain/MoveMap.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
-              <caret line="12" column="39" selection-start-line="12" selection-start-column="34" selection-end-line="12" selection-end-column="39" />
+            <state relative-caret-position="364">
+              <caret line="43" column="5" lean-forward="true" selection-start-line="43" selection-start-column="5" selection-end-line="43" selection-end-column="5" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/uncc/edu/maruf/louvain/LouvainMethod.java">
+        <entry file="file://$PROJECT_DIR$/src/uncc/edu/maruf/louvain/CoarsenMap.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="239">
-              <caret line="34" column="59" selection-start-line="34" selection-start-column="42" selection-end-line="34" selection-end-column="59" />
+            <state relative-caret-position="375">
+              <caret line="49" lean-forward="true" selection-start-line="49" selection-end-line="49" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="imports" expanded="true" />
@@ -210,6 +186,8 @@
       <find>system.pr</find>
       <find>Tool</find>
       <find>Configuration</find>
+      <find>Matcher</find>
+      <find>iteration</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -222,17 +200,18 @@
         <option value="$PROJECT_DIR$/src/uncc/edu/maruf/louvain/Mapper.java" />
         <option value="$PROJECT_DIR$/src/uncc/edu/maruf/louvain/Reducer.java" />
         <option value="$PROJECT_DIR$/Makefile" />
-        <option value="$PROJECT_DIR$/src/uncc/edu/maruf/louvain/Reduce.java" />
-        <option value="$PROJECT_DIR$/src/uncc/edu/maruf/louvain/Map.java" />
-        <option value="$PROJECT_DIR$/src/uncc/edu/maruf/louvain/CoarsenReduce.java" />
-        <option value="$PROJECT_DIR$/src/uncc/edu/maruf/louvain/Graph.java" />
         <option value="$PROJECT_DIR$/src/uncc/edu/maruf/louvain/Partition.java" />
-        <option value="$PROJECT_DIR$/src/uncc/edu/maruf/louvain/GraphReader.java" />
-        <option value="$PROJECT_DIR$/src/uncc/edu/maruf/louvain/MovePhase.java" />
         <option value="$PROJECT_DIR$/src/uncc/edu/maruf/louvain/MoveMap.java" />
         <option value="$PROJECT_DIR$/src/uncc/edu/maruf/louvain/MoveReduce.java" />
-        <option value="$PROJECT_DIR$/src/uncc/edu/maruf/louvain/LouvainMethod.java" />
         <option value="$PROJECT_DIR$/src/uncc/edu/maruf/louvain/Move.java" />
+        <option value="$PROJECT_DIR$/src/uncc/edu/maruf/louvain/MovePhase.java" />
+        <option value="$PROJECT_DIR$/src/uncc/edu/maruf/louvain/CoarsenMap.java" />
+        <option value="$PROJECT_DIR$/src/uncc/edu/maruf/louvain/GraphReader.java" />
+        <option value="$PROJECT_DIR$/src/uncc/edu/maruf/louvain/CoarsenReduce.java" />
+        <option value="$PROJECT_DIR$/src/uncc/edu/maruf/louvain/Graph.java" />
+        <option value="$PROJECT_DIR$/src/uncc/edu/maruf/louvain/Reduce.java" />
+        <option value="$PROJECT_DIR$/src/uncc/edu/maruf/louvain/Map.java" />
+        <option value="$PROJECT_DIR$/src/uncc/edu/maruf/louvain/LouvainMethod.java" />
       </list>
     </option>
   </component>
@@ -288,7 +267,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1543982981172" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1544069371831" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Assignments/CloudComputing/Assignment3" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -340,12 +319,12 @@
       <option name="presentableId" value="Default" />
       <updated>1543866519518</updated>
       <workItem from="1543866521416" duration="3361000" />
-      <workItem from="1543911101943" duration="28390000" />
+      <workItem from="1543911101943" duration="42351000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="31751000" />
+    <option name="totallyTimeSpent" value="45712000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
@@ -447,41 +426,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/uncc/edu/maruf/louvain/GraphReader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="6" selection-start-line="6" selection-end-line="6" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="imports" expanded="true" />
-            <element signature="e#218#219#0" expanded="true" />
-            <element signature="e#249#250#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/uncc/edu/maruf/louvain/MovePhase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="6" selection-start-line="6" selection-end-line="6" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/uncc/edu/maruf/louvain/MoveMap.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="694">
-          <caret line="95" column="52" lean-forward="true" selection-start-line="95" selection-start-column="52" selection-end-line="95" selection-end-column="52" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/uncc/edu/maruf/louvain/MoveReduce.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="139">
@@ -493,10 +437,56 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/uncc/edu/maruf/louvain/MovePhase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="358">
+          <caret line="39" column="17" selection-start-line="39" selection-start-column="17" selection-end-line="39" selection-end-column="17" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/uncc/edu/maruf/louvain/CoarsenMap.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="49" lean-forward="true" selection-start-line="49" selection-end-line="49" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/uncc/edu/maruf/louvain/Move.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="133">
+          <caret line="36" column="34" lean-forward="true" selection-start-line="36" selection-start-column="34" selection-end-line="36" selection-end-column="34" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/uncc/edu/maruf/louvain/GraphReader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="20" column="31" selection-start-line="20" selection-start-column="19" selection-end-line="20" selection-end-column="31" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#218#219#0" expanded="true" />
+            <element signature="e#249#250#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/uncc/edu/maruf/louvain/Graph.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="5" column="3" selection-start-line="5" selection-start-column="3" selection-end-line="5" selection-end-column="3" />
+        <state relative-caret-position="321">
+          <caret line="30" column="19" selection-start-line="30" selection-start-column="19" selection-end-line="30" selection-end-column="19" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
@@ -508,18 +498,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/uncc/edu/maruf/louvain/CoarsenReduce.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="139">
-          <caret line="29" lean-forward="true" selection-start-line="29" selection-end-line="29" selection-end-column="31" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/uncc/edu/maruf/louvain/LouvainMethod.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="239">
-          <caret line="34" column="59" selection-start-line="34" selection-start-column="42" selection-end-line="34" selection-end-column="59" />
+        <state relative-caret-position="225">
+          <caret line="36" column="54" lean-forward="true" selection-start-line="31" selection-start-column="27" selection-end-line="36" selection-end-column="54" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
@@ -527,10 +507,43 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/uncc/edu/maruf/louvain/Move.java">
+    <entry file="file://$PROJECT_DIR$/src/uncc/edu/maruf/louvain/Reduce.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="37" column="55" selection-start-line="37" selection-start-column="55" selection-end-line="37" selection-end-column="55" />
+        <state relative-caret-position="364">
+          <caret line="42" column="39" lean-forward="true" selection-start-line="42" selection-start-column="39" selection-end-line="42" selection-end-column="39" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/uncc/edu/maruf/louvain/Map.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="214">
+          <caret line="65" column="50" lean-forward="true" selection-start-line="65" selection-start-column="50" selection-end-line="65" selection-end-column="50" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/uncc/edu/maruf/louvain/MoveMap.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="364">
+          <caret line="43" column="5" lean-forward="true" selection-start-line="43" selection-start-column="5" selection-end-line="43" selection-end-column="5" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/uncc/edu/maruf/louvain/LouvainMethod.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1183">
+          <caret line="100" column="54" lean-forward="true" selection-start-line="100" selection-start-column="54" selection-end-line="100" selection-end-column="54" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />

@@ -18,25 +18,13 @@ public class GraphReader {
     public GraphReader(String filePath){
         path = filePath;
     }
-    public Graph buildGraph() throws Exception {
+    public Integer getGraphInfo() throws Exception {
         Configuration conf = new Configuration();
         FileSystem fs = FileSystem.get(conf);
         BufferedReader br = new BufferedReader(new InputStreamReader(fs.open(new Path(path))));
         String line = br.readLine();
         StringTokenizer graphInfo = new StringTokenizer(line);
-        Graph graphBuilder = new Graph(Integer.parseInt(graphInfo.nextToken()), Integer.parseInt(graphInfo.nextToken()));
-        line = br.readLine();
-        int u = 0;
-        while (line != null) {
-            StringTokenizer adjacencyList = new StringTokenizer(line);
-            while (adjacencyList.hasMoreTokens()) {
-                String neighbor = adjacencyList.nextToken();
-                int v = Integer.parseInt(neighbor)-1;
-                graphBuilder.addAnEdge(u, v);
-            }
-            u++;
-            line = br.readLine();
-        }
-        return graphBuilder;
+        // Return number of vertices belongs to graph
+        return Integer.parseInt(graphInfo.nextToken());
     }
 }

@@ -35,7 +35,7 @@ public class Move extends Configured implements Tool{
     private static final Logger MoveLog = Logger.getLogger(Move.class);
     public static boolean moved = false;
     private int maxIteration = 33;
-    public void tryMove(String[] args) throws Exception{
+    public static void tryMove(String[] args) throws Exception{
         int res = ToolRunner.run(new Move(), args);
         System.exit(res);
     }
@@ -46,7 +46,7 @@ public class Move extends Configured implements Tool{
         do {
             moved = false;
             Configuration conf = new Configuration();
-            Job job = Job.getInstance(conf, "LouvainMethod");
+            Job job = Job.getInstance(conf, "Move");
             job.setJarByClass(this.getClass());
             /// Set the input file
             FileInputFormat.addInputPath(job, new Path(args[1]));
@@ -55,7 +55,7 @@ public class Move extends Configured implements Tool{
             /// Add Mapper Class
             job.setMapperClass(MoveMap.class);
             /// Add CoarsenReduce Class
-            job.setReducerClass(CoarsenReduce.class);
+            job.setReducerClass(MoveReduce.class);
             /// Set intermediate output key as Text
             job.setOutputKeyClass(Text.class);
             /// Set intermediate output value as Integer format
@@ -65,6 +65,7 @@ public class Move extends Configured implements Tool{
             if (moved){
                 LouvainMethod.changed = true;
             }
+            iteration++;
         } while (iteration<maxIteration && moved);
         return code;
     }
