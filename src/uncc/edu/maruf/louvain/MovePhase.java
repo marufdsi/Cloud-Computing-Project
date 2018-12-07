@@ -32,10 +32,11 @@ import org.apache.hadoop.util.StringUtils;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 import org.apache.log4j.Logger;
+import org.apache.hadoop.fs.FileSystem;
 
 public class MovePhase {
     private static final Logger MovePhaseLog = Logger.getLogger(Move.class);
-    private static int maxIteration = 2;
+    private static int maxIteration = 1;
     public MovePhase(){
 
     }
@@ -57,6 +58,7 @@ public class MovePhase {
                 break;
             }*/
             Configuration conf = new Configuration();
+            FileSystem fs = FileSystem.get(conf);
             Gson gson = new Gson();
             String graphObject = gson.toJson(LouvainMethod.G);
             conf.set("graphObject", graphObject);
@@ -67,7 +69,11 @@ public class MovePhase {
             /// Set the input file
             FileInputFormat.addInputPath(job, new Path(coarsenPath));
             /// Set the output file location
-            FileOutputFormat.setOutputPath(job, new Path(args[2] + iteration));
+            Path outputPath = new Path(args[2] + iteration);
+            if (fs.exists(outputPath)) {
+                fs.delete(outputPath, true);
+            }
+            FileOutputFormat.setOutputPath(job, outputPath);
             /// Add Mapper Class
             job.setMapperClass(CoarsenMap.class);
             /// Set reducer task

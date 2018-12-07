@@ -39,7 +39,7 @@ public class Preprocess {
         degree = new ArrayList<Integer>(Collections.nCopies(n, 0));
         outEdge = new ArrayList<>(n);
         outEdgeWeight = new ArrayList<>(n);
-        for (int i = 0; i < n; ++i) {
+        for (int i = 0; i < n; i++) {
             outEdge.add(new ArrayList<Integer>());
             outEdgeWeight.add(new ArrayList<Double>());
         }

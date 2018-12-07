@@ -32,6 +32,7 @@ import org.apache.hadoop.util.StringUtils;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 import org.apache.log4j.Logger;
+import org.apache.hadoop.fs.FileSystem;
 
 public class Move {
     private static final Logger MoveLog = Logger.getLogger(Move.class);
@@ -44,6 +45,7 @@ public class Move {
         do {
             moved = false;
             Configuration conf = new Configuration();
+            FileSystem fs = FileSystem.get(conf);
             Gson gson = new Gson();
             String graphObject = gson.toJson(LouvainMethod.G);
             conf.set("graphObject", graphObject);
@@ -63,7 +65,11 @@ public class Move {
             FileInputFormat.addInputPath(job, new Path(inputPath));
             /// Set the output file location
             returnPath = output + iteration;
-            FileOutputFormat.setOutputPath(job, new Path(returnPath));
+            Path outputPath = new Path(returnPath);
+            if (fs.exists(outputPath)) {
+                fs.delete(outputPath, true);
+            }
+            FileOutputFormat.setOutputPath(job, outputPath);
             /// Add Mapper Class
             job.setMapperClass(MoveMap.class);
             /// Set reducer task

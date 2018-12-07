@@ -40,7 +40,7 @@ public class Graph {
         volumeOfNode = new ArrayList<Double>(Collections.nCopies(n, 0.0));
         volumeOfCommunity = new ArrayList<Double>(Collections.nCopies(n, 0.0));
         outEdgeWeight = new ArrayList<>(n);
-        for (int i = 0; i < n; ++i) {
+        for (int i = 0; i < n; i++) {
             outEdge.add(new ArrayList<Integer>());
             outEdgeWeight.add(new ArrayList<Double>());
         }
@@ -83,7 +83,7 @@ public class Graph {
         for (int u : vertexSet) {
             double sum = 0.0;
             List<Integer> neighbors = outEdge.get(u);
-            for (int i=0; i<degree.get(u); ++i){
+            for (int i=0; i<degree.get(u); i++){
                 sum += outEdgeWeight.get(u).get(i);
             }
             volumeOfNode.set(u, sum);

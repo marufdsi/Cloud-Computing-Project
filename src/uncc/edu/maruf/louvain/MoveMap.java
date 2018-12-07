@@ -79,7 +79,7 @@ public class MoveMap extends Mapper<LongWritable, Text, Text, Text> {
         java.util.Map<Integer, Double> affinity = new HashMap<>();
 
         affinity.put(graph.zeta.get(u), 0.0);
-        for (int i = 0; i < adjacency.length; ++i) {
+        for (int i = 0; i < adjacency.length; i++) {
             String[] neighbor = adjacency[i].trim().split(":::");
             if (neighbor.length < 2)
                 return;
