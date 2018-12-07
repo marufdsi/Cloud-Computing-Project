@@ -10,6 +10,7 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.gson.Gson;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
@@ -31,11 +32,14 @@ import org.apache.log4j.Logger;
 
 public class CoarsenReduce extends Reducer<Text, Text, Text, Text> {
     private static final Logger CoarsenReducerLog = Logger.getLogger(CoarsenReduce.class);
-
+    Graph graph;
     @Override
     public void reduce(Text community, Iterable<Text> adjacencies, Context context)
             throws IOException, InterruptedException {
         Configuration conf = context.getConfiguration();
+        String graphObject = conf.get("graphObject");
+        Gson gson = new Gson();
+        graph = gson.fromJson(graphObject, Graph.class);
         boolean moved = Boolean.parseBoolean(conf.get("moved"));
         if (moved) {
             Map<Integer, Double> neighbors = new HashMap<>();
@@ -48,7 +52,7 @@ public class CoarsenReduce extends Reducer<Text, Text, Text, Text> {
                             String[] nodeValuePair = node.split(":::");
                             if (nodeValuePair.length >= 2) {
                                 int v = Integer.parseInt(nodeValuePair[0]);
-                                int D = LouvainMethod.G.zeta.get(v);
+                                int D = graph.zeta.get(v);
                                 if (C != D) {
                                     neighbors.put(D, neighbors.get(D) + Double.parseDouble(nodeValuePair[1]));
                                 }
@@ -60,7 +64,7 @@ public class CoarsenReduce extends Reducer<Text, Text, Text, Text> {
                         String[] nodeValuePair = value.toString().split(":::");
                         if (nodeValuePair.length >= 2) {
                             int v = Integer.parseInt(nodeValuePair[0]);
-                            int D = LouvainMethod.G.zeta.get(v);
+                            int D = graph.zeta.get(v);
                             if (C != D) {
                                 neighbors.put(D, neighbors.get(D) + Double.parseDouble(nodeValuePair[1]));
                             }

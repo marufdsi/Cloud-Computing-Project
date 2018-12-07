@@ -7,6 +7,8 @@
 package uncc.edu.maruf.louvain;
 
 import java.io.*;
+
+import com.google.gson.Gson;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.BytesWritable;
 import org.apache.hadoop.io.Text;
@@ -31,23 +33,22 @@ import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 import org.apache.log4j.Logger;
 
-public class Move extends Configured implements Tool{
+public class Move {
     private static final Logger MoveLog = Logger.getLogger(Move.class);
     public static boolean moved = false;
-    private int maxIteration = 33;
+    private static int maxIteration = 1;
     public static void tryMove(String[] args) throws Exception{
-        int res = ToolRunner.run(new Move(), args);
-        System.exit(res);
-    }
-
-    public int run(String[] args) throws Exception {
         int code = 0;
         int iteration = 0;
         do {
             moved = false;
             Configuration conf = new Configuration();
+            Gson gson = new Gson();
+            String graphObject = gson.toJson(LouvainMethod.G);
+            conf.set("graphObject", graphObject);
+            conf.set("moved", String.valueOf(moved));
             Job job = Job.getInstance(conf, "Move");
-            job.setJarByClass(this.getClass());
+            job.setJarByClass(Move.class);
             /// Set the input file
             FileInputFormat.addInputPath(job, new Path(args[0]));
             /// Set the output file location
@@ -62,11 +63,11 @@ public class Move extends Configured implements Tool{
             job.setOutputValueClass(Text.class);
 
             code = job.waitForCompletion(true) ? 0 : 1;
+            moved = Boolean.parseBoolean(conf.get("moved"));
             if (moved){
                 LouvainMethod.changed = true;
             }
             iteration++;
         } while (iteration<maxIteration && moved);
-        return code;
     }
 }

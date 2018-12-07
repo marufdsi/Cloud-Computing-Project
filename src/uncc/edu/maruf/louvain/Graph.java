@@ -20,6 +20,7 @@ public class Graph {
     public int nodes;
     public int edges;
     public static double defaultEdgeWeight = 1.0;
+    public List<Integer> vertexSet;
     public List<Integer> degree;
     public List<List<Integer>> outEdge;
     public List<List<Double>> outEdgeWeight;
@@ -34,11 +35,17 @@ public class Graph {
         edges = e;
         degree = new ArrayList<Integer>(Collections.nCopies(n, 0));
         outEdge = new ArrayList<>(n);
+        zeta = new ArrayList<Integer>(Collections.nCopies(n, 0));
+        volumeOfNode = new ArrayList<Double>(Collections.nCopies(n, 0.0));
+        volumeOfCommunity = new ArrayList<Double>(Collections.nCopies(n, 0.0));
         outEdgeWeight = new ArrayList<>(n);
         for (int i = 0; i < n; ++i) {
             outEdge.add(new ArrayList<Integer>());
             outEdgeWeight.add(new ArrayList<Double>());
         }
+    }
+    public void addVertex(Integer vertex){
+        vertexSet.add(vertex);
     }
 
     public void addAnEdge(int u, int v) {
@@ -56,6 +63,9 @@ public class Graph {
         outEdgeWeight.set(u, adjacentWeight);
         totalEdgeWeight += w;
     }
+    public void addToCommunity(int node, int community) {
+        zeta.set(node, community);
+    }
 
     public void singletonCommunity() {
         zeta = new ArrayList<>(nodes);
@@ -68,8 +78,20 @@ public class Graph {
         }
     }
 
+    public void initializeVolume() {
+        for (int u : vertexSet) {
+            double sum = 0.0;
+            List<Integer> neighbors = outEdge.get(u);
+            for (int i=0; i<degree.get(u); ++i){
+                sum += outEdgeWeight.get(u).get(i);
+            }
+            volumeOfNode.set(u, sum);
+            volumeOfCommunity.set(zeta.get(u), sum);
+        }
+    }
+
     public void saveGraphIntoHadoopFormat(String filePath) throws Exception {
-        String outputData = "";
+        String outputData = "header " + nodes + "::##::" + edges + "\n";
         for (int u = 0; u < nodes; u++) {
             String adjacency = "";
             for (int j = 0; j < degree.get(u); j++) {

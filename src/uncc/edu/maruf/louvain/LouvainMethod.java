@@ -32,6 +32,8 @@ import org.apache.hadoop.util.StringUtils;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 import org.apache.log4j.Logger;
+
+import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -45,20 +47,19 @@ public class LouvainMethod{
         changed = true;
         GraphReader reader = new GraphReader(args[0]);
         G = reader.buildGraph();
+        G.initializeVolume();
         System.out.println("Graph nodes: " + G.nodes);
-        System.out.println("Create Singleton Community");
-        G.singletonCommunity();
+//        System.out.println("Create Singleton Community");
+//        G.singletonCommunity();
         System.out.println("Graph Creation Done");
-        G.saveGraphIntoHadoopFormat(args[1]);
-        System.out.println("Save Graph");
-//        MovePhase.detectCommunity(args);
+//        G.saveGraphIntoHadoopFormat(args[1]);
+//        System.out.println("Save Graph");
+        MovePhase.detectCommunity(args);
 //        Move.tryMove(args);
-        mapReduceTask(args);
-        /*int res = ToolRunner.run(new LouvainMethod(), args);
-        System.exit(res);*/
+//        mapReduceTask(args);
     }
 
-    public static void mapReduceTask(String[] args) throws Exception {
+   /* public static void mapReduceTask(String[] args) throws Exception {
         int code = 0;
         Configuration conf = new Configuration();
         Gson gson = new Gson();
@@ -80,9 +81,9 @@ public class LouvainMethod{
         job.setOutputValueClass(Text.class);
 
         code = job.waitForCompletion(true) ? 0 : 1;
-    }
+    }*/
 
-    public static class Map extends Mapper<LongWritable, Text, Text, Text> {
+    /*public static class Map extends Mapper<LongWritable, Text, Text, Text> {
         private static final Logger MapperLog = Logger.getLogger(Map.class);
         private String input;
         Graph graph;
@@ -108,7 +109,19 @@ public class LouvainMethod{
             String line = lineText.toString();
             line = line.trim();
             String[] lineSegments = line.split(" ");
+            int u;
+            if (lineSegments.length <2){
+                return;
+            }
+            String fromVertex = lineSegments[0];
+            if(fromVertex.contains("::##::")){
+                String[] communityInfo = fromVertex.split("::##::");
+                u = Integer.parseInt(communityInfo[0]);
+            } else {
+                u = Integer.parseInt(fromVertex);
+            }
             String adjacency = "";
+            StringTokenizer adjacencyList = new StringTokenizer(lineSegments[1], "###");
             for (String v : lineSegments){
                 MapperLog.debug("Nodes: " + graph.nodes);
                 if (!v.trim().isEmpty()) {
@@ -116,14 +129,16 @@ public class LouvainMethod{
                     adjacency += v + ":::1.0" + "###";
                 }
             }
+
+
             if (adjacency.length() > 3) {
                 adjacency = adjacency.substring(0, adjacency.length() - 3);
                 context.write(new Text(offset.toString()), new Text(adjacency));
             }
         }
-    }
+    }*/
 
-    public static class Reduce extends Reducer<Text, Text, Text, Text> {
+   /* public static class Reduce extends Reducer<Text, Text, Text, Text> {
         private static final Logger ReducerLog = Logger.getLogger(Reduce.class);
         @Override
         public void reduce(Text node, Iterable<Text> adjacency, Context context) throws IOException, InterruptedException {
@@ -131,6 +146,6 @@ public class LouvainMethod{
                 context.write(node, value);
             }
         }
-    }
+    }*/
 
 }

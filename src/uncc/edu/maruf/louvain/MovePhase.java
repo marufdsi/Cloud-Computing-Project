@@ -7,6 +7,8 @@
 package uncc.edu.maruf.louvain;
 
 import java.io.*;
+
+import com.google.gson.Gson;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.BytesWritable;
 import org.apache.hadoop.io.Text;
@@ -31,17 +33,16 @@ import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 import org.apache.log4j.Logger;
 
-public class MovePhase extends Configured implements Tool{
+public class MovePhase {
     private static final Logger MovePhaseLog = Logger.getLogger(Move.class);
-    private int maxIteration = 15;
+    private static int maxIteration = 1;
     public MovePhase(){
 
     }
     public static void detectCommunity(String[] args) throws Exception {
-        int res = ToolRunner.run(new Move(), args);
-        System.exit(res);
+        performMovePhase(args);
     }
-    public int run(String[] args) throws Exception {
+    public static void performMovePhase(String[] args) throws Exception {
         int code = 0;
         int iteration = 0;
         do {
@@ -51,8 +52,11 @@ public class MovePhase extends Configured implements Tool{
                 break;
             }
             Configuration conf = new Configuration();
+            Gson gson = new Gson();
+            String graphObject = gson.toJson(LouvainMethod.G);
+            conf.set("graphObject", graphObject);
             Job job = Job.getInstance(conf, "MovePhase");
-            job.setJarByClass(this.getClass());
+            job.setJarByClass(MovePhase.class);
             /// Set the input file
             FileInputFormat.addInputPath(job, new Path(args[1]));
             /// Set the output file location
@@ -69,6 +73,5 @@ public class MovePhase extends Configured implements Tool{
             code = job.waitForCompletion(true) ? 0 : 1;
             iteration++;
         } while (iteration<maxIteration && LouvainMethod.changed);
-        return code;
     }
 }
