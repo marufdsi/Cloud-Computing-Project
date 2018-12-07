@@ -33,6 +33,7 @@ public class Graph {
     public Graph(Integer n, Integer e) {
         nodes = n;
         edges = e;
+        vertexSet = new ArrayList<>();
         degree = new ArrayList<Integer>(Collections.nCopies(n, 0));
         outEdge = new ArrayList<>(n);
         zeta = new ArrayList<Integer>(Collections.nCopies(n, 0));

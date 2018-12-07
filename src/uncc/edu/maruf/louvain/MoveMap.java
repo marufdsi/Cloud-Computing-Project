@@ -59,7 +59,7 @@ public class MoveMap extends Mapper<LongWritable, Text, Text, Text> {
         String line = lineText.toString();
         line = line.trim();
 
-        String[] lineSegments = line.split(" ");
+        String[] lineSegments = line.split("\\s+");
         int u;
         if (lineSegments.length <2){
             return;
@@ -108,8 +108,10 @@ public class MoveMap extends Mapper<LongWritable, Text, Text, Text> {
                 }
             }
         }
+        int community = C;
         if (deltaBest > 0) { // if modularity improvement possible
             graph.zeta.set(u, bestCommunity); // move to best cluster
+            community = bestCommunity;
             // mod update
             double volN = 0.0;
             volN = graph.volumeOfNode.get(u);
@@ -119,7 +121,7 @@ public class MoveMap extends Mapper<LongWritable, Text, Text, Text> {
             Configuration conf = context.getConfiguration();
             conf.set("moved", String.valueOf(true));
         }
-        context.write(new Text(String.valueOf(u)), new Text(lineSegments[1].trim()));
+        context.write(new Text(String.valueOf(u) + "::##::" + community), new Text(lineSegments[1].trim()));
     }
 
     public double modGain(int u, int C, int D, double affinityC, double affinityD) {

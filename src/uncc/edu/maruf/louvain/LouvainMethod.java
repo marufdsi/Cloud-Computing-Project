@@ -42,110 +42,23 @@ import java.util.regex.Pattern;
 public class LouvainMethod{
     private static final Logger LouvainLog = Logger.getLogger(LouvainMethod.class);
     public static Graph G;
+    private static Graph originalGraph;
     public static boolean changed;
+    private static Double gTotalEdgeWeight;
     public static void main(String[] args) throws Exception{
         changed = true;
         GraphReader reader = new GraphReader(args[0]);
         G = reader.buildGraph();
         G.initializeVolume();
-        System.out.println("Graph nodes: " + G.nodes);
-//        System.out.println("Create Singleton Community");
-//        G.singletonCommunity();
+        originalGraph = G;
+        gTotalEdgeWeight = G.totalEdgeWeight;
         System.out.println("Graph Creation Done");
-//        G.saveGraphIntoHadoopFormat(args[1]);
-//        System.out.println("Save Graph");
-        MovePhase.detectCommunity(args);
-//        Move.tryMove(args);
-//        mapReduceTask(args);
+        String finalOutputPath = MovePhase.detectCommunity(args);
     }
 
-   /* public static void mapReduceTask(String[] args) throws Exception {
-        int code = 0;
-        Configuration conf = new Configuration();
-        Gson gson = new Gson();
-        String graphObject = gson.toJson(G);
-        conf.set("graphObject", graphObject);
-        Job job = Job.getInstance(conf, "LouvainMethod");
-        job.setJarByClass(LouvainMethod.class);
-        /// Set the input file
-        FileInputFormat.addInputPath(job, new Path(args[0]));
-        /// Set the output file location
-        FileOutputFormat.setOutputPath(job, new Path(args[1]));
-        /// Add Mapper Class
-        job.setMapperClass(Map.class);
-        /// Add CoarsenReduce Class
-        job.setReducerClass(Reduce.class);
-        /// Set intermediate output key as Text
-        job.setOutputKeyClass(Text.class);
-        /// Set intermediate output value as Integer format
-        job.setOutputValueClass(Text.class);
-
-        code = job.waitForCompletion(true) ? 0 : 1;
-    }*/
-
-    /*public static class Map extends Mapper<LongWritable, Text, Text, Text> {
-        private static final Logger MapperLog = Logger.getLogger(Map.class);
-        private String input;
-        Graph graph;
-        protected void setup(Mapper.Context context) throws IOException, InterruptedException {
-            Configuration conf = context.getConfiguration();
-            String graphObject = conf.get("graphObject");
-            Gson gson = new Gson();
-            graph = gson.fromJson(graphObject, Graph.class);
-
-            System.out.println("Nodes: " + graph.nodes);
-
-            if (context.getInputSplit() instanceof FileSplit) {
-                this.input = ((FileSplit) context.getInputSplit()).getPath().toString();
-            } else {
-                this.input = context.getInputSplit().toString();
-            }
-        }
-        public void map(LongWritable offset, Text lineText, Context context) throws IOException, InterruptedException {
-            if (offset.get() == 0){
-                return;
-            }
-            /// get the input line as string and trim it.
-            String line = lineText.toString();
-            line = line.trim();
-            String[] lineSegments = line.split(" ");
-            int u;
-            if (lineSegments.length <2){
-                return;
-            }
-            String fromVertex = lineSegments[0];
-            if(fromVertex.contains("::##::")){
-                String[] communityInfo = fromVertex.split("::##::");
-                u = Integer.parseInt(communityInfo[0]);
-            } else {
-                u = Integer.parseInt(fromVertex);
-            }
-            String adjacency = "";
-            StringTokenizer adjacencyList = new StringTokenizer(lineSegments[1], "###");
-            for (String v : lineSegments){
-                MapperLog.debug("Nodes: " + graph.nodes);
-                if (!v.trim().isEmpty()) {
-                    graph.addAnEdge((int) (offset.get()), Integer.parseInt(v.trim()));
-                    adjacency += v + ":::1.0" + "###";
-                }
-            }
-
-
-            if (adjacency.length() > 3) {
-                adjacency = adjacency.substring(0, adjacency.length() - 3);
-                context.write(new Text(offset.toString()), new Text(adjacency));
-            }
-        }
-    }*/
-
-   /* public static class Reduce extends Reducer<Text, Text, Text, Text> {
-        private static final Logger ReducerLog = Logger.getLogger(Reduce.class);
-        @Override
-        public void reduce(Text node, Iterable<Text> adjacency, Context context) throws IOException, InterruptedException {
-            for (Text value : adjacency) {
-                context.write(node, value);
-            }
-        }
-    }*/
+    public double getModularity(String filePath){
+        double modularity = 0.0;
+        return modularity;
+    }
 
 }

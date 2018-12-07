@@ -36,10 +36,11 @@ import org.apache.log4j.Logger;
 public class Move {
     private static final Logger MoveLog = Logger.getLogger(Move.class);
     public static boolean moved = false;
-    private static int maxIteration = 1;
-    public static void tryMove(String[] args) throws Exception{
+    private static int maxIteration = 3;
+    public static String tryMove(String input, String output) throws Exception{
         int code = 0;
         int iteration = 0;
+        String returnPath = "";
         do {
             moved = false;
             Configuration conf = new Configuration();
@@ -47,14 +48,26 @@ public class Move {
             String graphObject = gson.toJson(LouvainMethod.G);
             conf.set("graphObject", graphObject);
             conf.set("moved", String.valueOf(moved));
+            String inputPath = "";
+            if (iteration == 0) {
+                inputPath = input;
+                conf.set("DoNotDelete", String.valueOf(true));
+            } else {
+                inputPath = returnPath;
+                conf.set("DoNotDelete", String.valueOf(false));
+            }
+            conf.set("InputPath", inputPath);
             Job job = Job.getInstance(conf, "Move");
             job.setJarByClass(Move.class);
             /// Set the input file
-            FileInputFormat.addInputPath(job, new Path(args[0]));
+            FileInputFormat.addInputPath(job, new Path(inputPath));
             /// Set the output file location
-            FileOutputFormat.setOutputPath(job, new Path(args[1]));
+            returnPath = output + iteration;
+            FileOutputFormat.setOutputPath(job, new Path(returnPath));
             /// Add Mapper Class
             job.setMapperClass(MoveMap.class);
+            /// Set reducer task
+            job.setNumReduceTasks(1);
             /// Add CoarsenReduce Class
             job.setReducerClass(MoveReduce.class);
             /// Set intermediate output key as Text
@@ -63,11 +76,16 @@ public class Move {
             job.setOutputValueClass(Text.class);
 
             code = job.waitForCompletion(true) ? 0 : 1;
+            GraphReader reader = new GraphReader();
+            LouvainMethod.G = reader.buildGraph(returnPath + "/part-r-00000", LouvainMethod.G.nodes, LouvainMethod.G.edges);
+            LouvainMethod.G.initializeVolume();
+            System.out.println("Moved: " + conf.get("moved"));
             moved = Boolean.parseBoolean(conf.get("moved"));
             if (moved){
                 LouvainMethod.changed = true;
             }
             iteration++;
-        } while (iteration<maxIteration && moved);
+        } while (iteration<maxIteration /*&& moved*/);
+        return returnPath;
     }
 }

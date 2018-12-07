@@ -24,6 +24,7 @@ import org.apache.hadoop.util.StringUtils;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 import org.apache.log4j.Logger;
+import org.apache.hadoop.fs.FileSystem;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -33,12 +34,21 @@ public class MoveReduce extends Reducer<Text, Text, Text, Text> {
     private static final Logger MapperLog = Logger.getLogger(CoarsenReduce.class);
 
     @Override
-    public void reduce(Text u, Iterable<Text> adjacency, Context context) throws IOException, InterruptedException {
+    public void reduce(Text nodeinfo, Iterable<Text> adjacency, Context context) throws IOException, InterruptedException {
         Configuration conf = context.getConfiguration();
         boolean moved = Boolean.parseBoolean(conf.get("moved"));
         for (Text value : adjacency) {
-            context.write(u, value);
+            context.write(nodeinfo, value);
         }
-
+    }
+    /// Cleanup method called at the last of Reduce. So, I perform cleanup and sorting in here.
+    public void cleanup(Context context) throws IOException, InterruptedException{
+        Configuration conf = context.getConfiguration();
+        FileSystem fs = FileSystem.get(conf);
+        String inputPath = conf.get("InputPath");
+        boolean doNotDelete = Boolean.parseBoolean(conf.get("DoNotDelete"));
+        if(!doNotDelete && fs.exists(new Path(inputPath))) {
+//            fs.delete(new Path(inputPath), true);
+        }
     }
 }

@@ -35,34 +35,43 @@ import org.apache.log4j.Logger;
 
 public class MovePhase {
     private static final Logger MovePhaseLog = Logger.getLogger(Move.class);
-    private static int maxIteration = 1;
+    private static int maxIteration = 2;
     public MovePhase(){
 
     }
-    public static void detectCommunity(String[] args) throws Exception {
-        performMovePhase(args);
+    public static String detectCommunity(String[] args) throws Exception {
+        return performMovePhase(args);
     }
-    public static void performMovePhase(String[] args) throws Exception {
+    public static String performMovePhase(String[] args) throws Exception {
         int code = 0;
         int iteration = 0;
         do {
             LouvainMethod.changed = false;
-            Move.tryMove(args);
-            if (!LouvainMethod.changed){
-                break;
+            String coarsenPath = "";
+            if (iteration == 0) {
+                coarsenPath = Move.tryMove(args[0], args[1]);
+            } else {
+                coarsenPath = Move.tryMove(args[2] + (iteration-1), args[1] + iteration);
             }
+            /*if (!LouvainMethod.changed){
+                break;
+            }*/
             Configuration conf = new Configuration();
             Gson gson = new Gson();
             String graphObject = gson.toJson(LouvainMethod.G);
             conf.set("graphObject", graphObject);
+            conf.set("InputPath", coarsenPath);
             Job job = Job.getInstance(conf, "MovePhase");
+            conf.set("moved", String.valueOf(true));
             job.setJarByClass(MovePhase.class);
             /// Set the input file
-            FileInputFormat.addInputPath(job, new Path(args[1]));
+            FileInputFormat.addInputPath(job, new Path(coarsenPath));
             /// Set the output file location
-            FileOutputFormat.setOutputPath(job, new Path(args[2]));
+            FileOutputFormat.setOutputPath(job, new Path(args[2] + iteration));
             /// Add Mapper Class
             job.setMapperClass(CoarsenMap.class);
+            /// Set reducer task
+            job.setNumReduceTasks(1);
             /// Add CoarsenReduce Class
             job.setReducerClass(CoarsenReduce.class);
             /// Set intermediate output key as Text
@@ -71,7 +80,11 @@ public class MovePhase {
             job.setOutputValueClass(Text.class);
 
             code = job.waitForCompletion(true) ? 0 : 1;
+            GraphReader reader = new GraphReader();
+            LouvainMethod.G = reader.buildGraph(args[2] + iteration  + "/part-r-00000", LouvainMethod.G.nodes, LouvainMethod.G.edges);
+            LouvainMethod.G.initializeVolume();
             iteration++;
-        } while (iteration<maxIteration && LouvainMethod.changed);
+        } while (iteration<maxIteration /*&& LouvainMethod.changed*/);
+        return args[2] + (iteration-1)  + "/part-r-00000";
     }
 }

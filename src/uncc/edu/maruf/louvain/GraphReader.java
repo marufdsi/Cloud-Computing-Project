@@ -15,6 +15,9 @@ import org.apache.hadoop.fs.FileSystem;
 
 public class GraphReader {
     private String path;
+    public GraphReader(){
+
+    }
     public GraphReader(String filePath){
         path = filePath;
     }
@@ -44,9 +47,47 @@ public class GraphReader {
         br.close();
         return graphBuilder;
     }
-    public Graph buildGraph(String filePath)throws Exception {
+    public Graph buildGraph(String filePath, Integer n, Integer e)throws Exception {
         this.path = filePath;
-        return buildGraph();
+        Configuration conf = new Configuration();
+        FileSystem fs = FileSystem.get(conf);
+        BufferedReader br = new BufferedReader(new InputStreamReader(fs.open(new Path(filePath))));
+        Graph graphBuilder = new Graph(n, e);
+        String line = br.readLine();
+        while (line != null) {
+            String[] vertexInfo = line.split("\\s+");
+            int u;
+            if (vertexInfo.length <2){
+                continue;
+            }
+            String fromVertex = vertexInfo[0];
+            if(fromVertex.contains("::##::")){
+                String[] communityInfo = fromVertex.split("::##::");
+                u = Integer.parseInt(communityInfo[0]);
+                if(communityInfo[1].contains("@::@")) {
+                    graphBuilder.addToCommunity(u, Integer.parseInt(communityInfo[1].split("@::@")[0]));
+                } else {
+                    graphBuilder.addToCommunity(u, Integer.parseInt(communityInfo[1]));
+                }
+            } else {
+                u = Integer.parseInt(fromVertex);
+                graphBuilder.addToCommunity(u, u);
+            }
+            graphBuilder.addVertex(u);
+            StringTokenizer adjacencyList = new StringTokenizer(vertexInfo[1], "###");
+            while (adjacencyList.hasMoreTokens()) {
+                String[] neighborInfo = adjacencyList.nextToken().split(":::");
+                int v = Integer.parseInt(neighborInfo[0]);
+                if (neighborInfo.length>=2){
+                    graphBuilder.addAnEdge(u, v, Double.parseDouble(neighborInfo[1]));
+                } else {
+                    graphBuilder.addAnEdge(u, v);
+                }
+            }
+            line = br.readLine();
+        }
+        br.close();
+        return graphBuilder;
     }
     public Graph buildGraph() throws Exception {
         Configuration conf = new Configuration();
@@ -55,12 +96,14 @@ public class GraphReader {
         String line = br.readLine();
         Graph graphBuilder;
         if (line.contains("header")) {
-            String[] graphInfo = line.split(" ");
+            String[] graphInfo = line.split("\\s+");
             if (graphInfo.length <2){
                 throw new Exception("Graph format invalid");
             }
             String[] nodesAndVertices = graphInfo[1].split("::##::");
             if (nodesAndVertices.length <2){
+                System.out.println("Line: " + line);
+                System.out.println("graphInfo[1]: " + graphInfo[1]);
                 throw new Exception("Graph format invalid");
             }
             graphBuilder = new Graph(Integer.parseInt(nodesAndVertices[0]), Integer.parseInt(nodesAndVertices[1]));
@@ -69,7 +112,7 @@ public class GraphReader {
         }
         line = br.readLine();
         while (line != null) {
-            String[] vertexInfo = line.split(" ");
+            String[] vertexInfo = line.split("\\s+");
             int u;
             if (vertexInfo.length <2){
                 continue;
@@ -86,9 +129,8 @@ public class GraphReader {
             graphBuilder.addVertex(u);
             StringTokenizer adjacencyList = new StringTokenizer(vertexInfo[1], "###");
             while (adjacencyList.hasMoreTokens()) {
-
                 String[] neighborInfo = adjacencyList.nextToken().split(":::");
-                int v = Integer.parseInt(neighborInfo[0])-1;
+                int v = Integer.parseInt(neighborInfo[0]);
                 if (neighborInfo.length>=2){
                     graphBuilder.addAnEdge(u, v, Double.parseDouble(neighborInfo[1]));
                 } else {
