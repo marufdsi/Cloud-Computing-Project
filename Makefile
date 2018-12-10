@@ -1,32 +1,17 @@
 intermediatefile=/user/cloudera/louvain/preprocess
 output=/user/cloudera/louvain/output
 
-graph1=/user/cloudera/louvain/smallworld
-preprocessedGraph1=/user/cloudera/louvain/preprocessedSmallWorld
-graph2=/user/cloudera/louvain/as-22july06
-preprocessedGraph2=/user/cloudera/louvain/preprocessedAs-22july06
-graph3=/user/cloudera/louvain/cnr-2000
-preprocessedGraph3=/user/cloudera/louvain/preprocessedCnr-2000
-graph4=/user/cloudera/louvain/email
-preprocessedGraph4=/user/cloudera/louvain/preprocessedEmail
-graph5=/user/cloudera/louvain/G_n_pout
-preprocessedGraph5=/user/cloudera/louvain/preprocessedG_n_pout
-
-graph6=/user/cloudera/louvain/astro-ph
-preprocessedGraph6=/user/cloudera/louvain/preprocessedAstro-ph
-graph7=/user/cloudera/louvain/cond-mat-2005
-preprocessedGraph7=/user/cloudera/louvain/preprocessedCond-mat-2005
-graph8=/user/cloudera/louvain/power
-preprocessedGraph8=/user/cloudera/louvain/preprocessedPower
+graph=/user/cloudera/louvain/as-22july06
+preprocessedGraph=/user/cloudera/louvain/preprocessedAs-22july06
 
 preprocess: build jar
-	hadoop fs -rm -f -r  $(preprocessedGraph3)
-	hadoop jar louvainmethod.jar uncc.edu.maruf.louvain.LouvainMethod $(graph3) $(preprocessedGraph3)
+	hadoop fs -rm -f -r  $(preprocessedGraph)
+	hadoop jar louvainmethod.jar uncc.edu.maruf.louvain.LouvainMethod $(graph) $(preprocessedGraph)
 
 run: build jar
 	hadoop fs -rm -f -r  $(intermediatefile)
 	hadoop fs -rm -f -r  $(output)
-	hadoop jar louvainmethod.jar uncc.edu.maruf.louvain.LouvainMethod $(preprocessedGraph1) $(intermediatefile) $(output)
+	hadoop jar louvainmethod.jar uncc.edu.maruf.louvain.LouvainMethod $(preprocessedGraph) $(intermediatefile) $(output)
 
 louvainmethod-jar: jar
 

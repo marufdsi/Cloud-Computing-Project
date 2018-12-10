@@ -89,7 +89,7 @@ public class MovePhase {
             LouvainMethod.G = reader.buildGraph(args[2] + iteration  + "/part-r-00000", LouvainMethod.G.nodes, LouvainMethod.G.edges);
             LouvainMethod.G.initializeVolume();
             iteration++;
-        } while (iteration<1);
+        } while (iteration<2);
         return args[2] + (iteration-1)  + "/part-r-00000";
     }
 }

@@ -37,7 +37,7 @@ import org.apache.hadoop.fs.FileSystem;
 public class Move {
     private static final Logger MoveLog = Logger.getLogger(Move.class);
     public static boolean moved = false;
-    private static int maxIteration = 5;
+    private static int maxIteration = 7;
     public static String tryMove(String input, String output) throws Exception{
         int code = 0;
         int iteration = 0;
