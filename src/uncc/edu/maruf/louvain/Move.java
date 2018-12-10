@@ -37,7 +37,7 @@ import org.apache.hadoop.fs.FileSystem;
 public class Move {
     private static final Logger MoveLog = Logger.getLogger(Move.class);
     public static boolean moved = false;
-    private static int maxIteration = 3;
+    private static int maxIteration = 5;
     public static String tryMove(String input, String output) throws Exception{
         int code = 0;
         int iteration = 0;
@@ -87,9 +87,6 @@ public class Move {
             LouvainMethod.G.initializeVolume();
             System.out.println("Moved: " + conf.get("moved"));
             moved = Boolean.parseBoolean(conf.get("moved"));
-            if (moved){
-                LouvainMethod.changed = true;
-            }
             iteration++;
         } while (iteration<maxIteration /*&& moved*/);
         return returnPath;

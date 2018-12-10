@@ -48,10 +48,15 @@ public class LouvainMethod{
     private static final Logger LouvainLog = Logger.getLogger(LouvainMethod.class);
     public static Graph G;
     private static Graph originalGraph;
-    public static boolean changed;
     private static Double gTotalEdgeWeight;
     public static void main(String[] args) throws Exception{
-        changed = true;
+        if (args.length>=3){
+            performLouvainMethod(args);
+        } else {
+            performPreproces(args);
+        }
+    }
+    public static void performLouvainMethod(String[] args) throws Exception{
         GraphReader reader = new GraphReader(args[0]);
         G = reader.buildGraph();
         G.initializeVolume();
@@ -61,6 +66,13 @@ public class LouvainMethod{
         String finalOutputPath = MovePhase.detectCommunity(args);
         double modularity = getModularity(finalOutputPath);
         System.out.println("Modularity: " + modularity);
+    }
+    public static void performPreproces(String[] args) throws Exception{
+        GraphReader reader = new GraphReader(args[0]);
+        Preprocess preprocess = reader.preprocess(args[0]);
+        preprocess.singletonCommunity();
+        preprocess.saveGraphIntoHadoopFormat(args[1]);
+        System.out.println("Graph Pre-process Done");
     }
 
     public static double getModularity(String filePath) throws Exception{
@@ -113,6 +125,7 @@ public class LouvainMethod{
         }
         double intraEdgeWeightSum = 0.0;
         double expCov = 0.0;
+        int numberOfCommunity = communities.size();
         for (int C : communities){
             intraEdgeWeightSum += intraEdgeWeight.get(C);
             expCov += ((incidentWeightSum.get(C) / gTotalEdgeWeight) * (incidentWeightSum.get(C) / gTotalEdgeWeight )) / 4;
@@ -120,6 +133,7 @@ public class LouvainMethod{
         double cov = intraEdgeWeightSum / gTotalEdgeWeight;
         modularity = cov - expCov;
         br.close();
+        System.out.println("Number of Community: " + numberOfCommunity);
         return modularity;
     }
 

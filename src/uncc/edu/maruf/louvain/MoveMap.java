@@ -55,7 +55,6 @@ public class MoveMap extends Mapper<LongWritable, Text, Text, Text> {
     public void map(LongWritable offset, Text lineText, Context context) throws IOException, InterruptedException {
         FileSplit fileSplit = (FileSplit) context.getInputSplit();
         /// get the input line as string and trim it.
-        System.out.println("Nodes: " + graph.nodes);
         String line = lineText.toString();
         line = line.trim();
 
@@ -68,9 +67,15 @@ public class MoveMap extends Mapper<LongWritable, Text, Text, Text> {
             return;
 
         String fromVertex = lineSegments[0];
+        String elements = "";
+        boolean hasElements = false;
         if(fromVertex.contains("::##::")){
             String[] communityInfo = fromVertex.split("::##::");
             u = Integer.parseInt(communityInfo[0]);
+            if (communityInfo[1].contains("@::@")){
+                elements = communityInfo[1].split("@::@")[1];
+                hasElements = true;
+            }
         } else {
             u = Integer.parseInt(fromVertex);
         }
@@ -121,7 +126,11 @@ public class MoveMap extends Mapper<LongWritable, Text, Text, Text> {
             Configuration conf = context.getConfiguration();
             conf.set("moved", String.valueOf(true));
         }
-        context.write(new Text(String.valueOf(u) + "::##::" + community), new Text(lineSegments[1].trim()));
+        if (hasElements){
+            context.write(new Text(String.valueOf(u) + "::##::" + community + "@::@" + elements), new Text(lineSegments[1].trim()));
+        } else {
+            context.write(new Text(String.valueOf(u) + "::##::" + community), new Text(lineSegments[1].trim()));
+        }
     }
 
     public double modGain(int u, int C, int D, double affinityC, double affinityD) {

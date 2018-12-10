@@ -42,13 +42,13 @@ public class CoarsenReduce extends Reducer<Text, Text, Text, Text> {
         String graphObject = conf.get("graphObject");
         Gson gson = new Gson();
         graph = gson.fromJson(graphObject, Graph.class);
-        boolean moved = Boolean.parseBoolean(conf.get("moved"));
+
         Map<Integer, Double> neighbors = new HashMap<>();
         String elementsOfCommunity = "";
         int C = Integer.parseInt(community.toString());
         for (Text value : adjacencies) {
             if (!value.toString().contains("##::@@::##")) {
-                throw new IOException("No elemen information");
+                throw new IOException("No element information");
             }
             String[] communityInfo = value.toString().split("##::@@::##");
             elementsOfCommunity += communityInfo[0] + "!#!";
@@ -67,7 +67,11 @@ public class CoarsenReduce extends Reducer<Text, Text, Text, Text> {
                                     neighbors.put(D, Double.parseDouble(nodeValuePair[1]));
                                 }
                             }
+                        } else {
+                            throw new IOException("No edge-weight information for the list of nodes, C: " + C);
                         }
+                    } else {
+                        throw new IOException("No edge-weight information for the list of nodes");
                     }
                 }
             } else {
@@ -83,7 +87,11 @@ public class CoarsenReduce extends Reducer<Text, Text, Text, Text> {
                                 neighbors.put(D, Double.parseDouble(nodeValuePair[1]));
                             }
                         }
+                    } else {
+                        throw new IOException("No edge-weight information for the node, C: " + C);
                     }
+                } else {
+                    throw new IOException("No edge-weight information for the node");
                 }
             }
         }
@@ -105,7 +113,7 @@ public class CoarsenReduce extends Reducer<Text, Text, Text, Text> {
         String inputPath = conf.get("InputPath");
         FileSystem fs = FileSystem.get(conf);
         if(fs.exists(new Path(inputPath))) {
-//            fs.delete(new Path(inputPath), true);
+            fs.delete(new Path(inputPath), true);
         }
     }
 }

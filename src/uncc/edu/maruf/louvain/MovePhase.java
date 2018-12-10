@@ -44,19 +44,19 @@ public class MovePhase {
         return performMovePhase(args);
     }
     public static String performMovePhase(String[] args) throws Exception {
-        int code = 0;
+
         int iteration = 0;
         do {
-            LouvainMethod.changed = false;
             String coarsenPath = "";
             if (iteration == 0) {
                 coarsenPath = Move.tryMove(args[0], args[1]);
             } else {
                 coarsenPath = Move.tryMove(args[2] + (iteration-1), args[1] + iteration);
             }
-            /*if (!LouvainMethod.changed){
-                break;
-            }*/
+            GraphReader reader = new GraphReader();
+            LouvainMethod.G = reader.buildGraph(coarsenPath  + "/part-r-00000", LouvainMethod.G.nodes, LouvainMethod.G.edges);
+            LouvainMethod.G.initializeVolume();
+
             Configuration conf = new Configuration();
             FileSystem fs = FileSystem.get(conf);
             Gson gson = new Gson();
@@ -64,7 +64,6 @@ public class MovePhase {
             conf.set("graphObject", graphObject);
             conf.set("InputPath", coarsenPath);
             Job job = Job.getInstance(conf, "MovePhase");
-            conf.set("moved", String.valueOf(true));
             job.setJarByClass(MovePhase.class);
             /// Set the input file
             FileInputFormat.addInputPath(job, new Path(coarsenPath));
@@ -85,12 +84,12 @@ public class MovePhase {
             /// Set intermediate output value as Integer format
             job.setOutputValueClass(Text.class);
 
-            code = job.waitForCompletion(true) ? 0 : 1;
-            GraphReader reader = new GraphReader();
+            int code = job.waitForCompletion(true) ? 0 : 1;
+            reader = new GraphReader();
             LouvainMethod.G = reader.buildGraph(args[2] + iteration  + "/part-r-00000", LouvainMethod.G.nodes, LouvainMethod.G.edges);
             LouvainMethod.G.initializeVolume();
             iteration++;
-        } while (iteration<maxIteration /*&& LouvainMethod.changed*/);
+        } while (iteration<1);
         return args[2] + (iteration-1)  + "/part-r-00000";
     }
 }

@@ -48,7 +48,7 @@ public class MoveReduce extends Reducer<Text, Text, Text, Text> {
         String inputPath = conf.get("InputPath");
         boolean doNotDelete = Boolean.parseBoolean(conf.get("DoNotDelete"));
         if(!doNotDelete && fs.exists(new Path(inputPath))) {
-//            fs.delete(new Path(inputPath), true);
+            fs.delete(new Path(inputPath), true);
         }
     }
 }

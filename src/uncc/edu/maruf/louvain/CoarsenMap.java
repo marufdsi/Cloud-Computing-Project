@@ -83,7 +83,6 @@ public class CoarsenMap extends Mapper<LongWritable, Text, Text, Text> {
             elementsOfCommunity = node;
         }
 
-        String nodeInfo = lineSegments[0];
         context.write(new Text(community), new Text(elementsOfCommunity + "##::@@::##" + lineSegments[1]));
     }
 }
